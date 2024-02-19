@@ -1,0 +1,2416 @@
+<html><head><meta name="description" content="OutputUtil developed by LT. Executed by /Users/PC/Desktop/CSCI 331/pythonProject">
+<title>All queries for Assignment 4 in assignment4.sql</title>
+<style>body {
+    background-color: white; /* Light blue for a soft, overall background */
+    font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+    color: #6e78ff; /* Soft purple for headers, contrasting against light blue background */
+    text-align: center;
+}
+h3 {
+    color: #6e78ff; /* Same as h1 for consistency */
+}
+.vericaltext {
+ writing-mode: vertical-lr;
+ text-orientation: upright;
+}
+
+table, th, td {
+    border: 1px solid;
+    text-align: center;
+    vertical-align: top
+}
+th > a {
+    color: #61f4de; /* Light teal for links, offering a good contrast on purple */
+}
+th {
+    background-color: #6e78ff; /* Soft purple for headers */
+    color: #65cbe9; /* Soft blue for text, ensuring readability */
+}
+tr:nth-child(even) {
+    background-color: lightskyblue; /* Periwinkle for even rows */
+    color: white; /* Soft blue for text, ensuring readability */
+}
+tr:nth-child(odd) {
+    background-color: lightpink; /* Light teal for odd rows */
+    color: blueviolet; /* Soft purple for text, ensuring readability */
+}
+</style>
+<script>
+function sortTable(tableId, colNum, colType) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchCount = 0;
+  table = document.getElementById(tableId);
+  switching = true;
+  dir = "asc";
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("td")[colNum];
+      y = rows[i + 1].getElementsByTagName("td")[colNum];
+      if (colType == 'N') { 
+        if (((dir == "asc") && (Number(x.innerHTML) > Number(y.innerHTML))) ||
+            ((dir == "desc") && (Number(x.innerHTML) < Number(y.innerHTML)))) {
+          shouldSwitch = true;
+          break;
+        }
+      } else {
+        if (((dir == "asc") && (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase())) ||
+            ((dir == "desc") && (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()))) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchCount ++;
+    } else {
+     if (switchCount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+</head>
+<body><h1>All queries for Assignment 4 in assignment4.sql</h1>
+<h3>Table of Contents</h3>
+<ol><li><a href="#table-Chapter-3.7:-Create-table-instructor">Chapter 3.7: Create table instructor</a>
+</li>
+<li><a href="#table-Chapter-3.32:-Average-salary-by-department">Chapter 3.32: Average salary by department</a>
+</li>
+<li><a href="#table-Chapter-3.16:-Retrieve-instructors-with-calculated-monthly-salary">Chapter 3.16: Retrieve instructors with calculated monthly salary</a>
+</li>
+<li><a href="#table-Chapter-3.25:-Instructors-with-salary-between-90k-and-100k">Chapter 3.25: Instructors with salary between 90k and 100k</a>
+</li>
+<li><a href="#table-Chapter-3.31:-Find-the-average-salary-of-instructors-in-the-Computer-Science-department">Chapter 3.31: Find the average salary of instructors in the Computer Science department</a>
+</li>
+<li><a href="#table-Chapter-3.24:-List-in-alphabetic-order-the-names-of-all-instructors">Chapter 3.24: List in alphabetic order the names of all instructors</a>
+</li>
+<li><a href="#table-Chapter-3.23:-Find-the-names-of-all-instructors-whose-name-includes-the-substring-“dar”.">Chapter 3.23: Find the names of all instructors whose name includes the substring “dar”.</a>
+</li>
+<li><a href="#table-Chapter-3.19:-Find-the-names-of-all-instructors-who-have-taught-some-course-and-the-course_id">Chapter 3.19: Find the names of all instructors who have taught some course and the course_id</a>
+</li>
+<li><a href="#table-Chapter-3.18:-Cartesian-product-of-instructor-and-teaches">Chapter 3.18: Cartesian product of instructor and teaches</a>
+</li>
+<li><a href="#table-Chapter-3.14:-Find-the-department-names-of-all-instructors,-and-remove-duplicates">Chapter 3.14: Find the department names of all instructors, and remove duplicates</a>
+</li>
+<li><a href="#table-Chapter-3.13:-find-the-names-of-all-instructors">Chapter 3.13: find the names of all instructors</a>
+</li>
+<li><a href="#table-Homework-query-#1:-Retrieve-all-courses-that-have-the-letters-a,-e,-i-in-THAT-order-in-their-names">Homework query #1: Retrieve all courses that have the letters a, e, i in THAT order in their names</a>
+</li>
+<li><a href="#table-test">test</a>
+</li>
+<li><a href="#table-Homework-query-#2:-Retrieve-all-courses-that-have-the-letters-a,-e,-i-i-ANY-order-in-their-names">Homework query #2: Retrieve all courses that have the letters a, e, i i ANY order in their names</a>
+</li>
+<li><a href="#table-Homework-query-#3:-Retrieve-the-names-of-all-students-who-failed-a-course-(grade-of-F)-along-with-the-name-of-the-course-that-they-failed">Homework query #3: Retrieve the names of all students who failed a course (grade of F) along with the name of the course that they failed</a>
+</li>
+<li><a href="#table-test-fail">test fail</a>
+</li>
+<li><a href="#table-Homework-query-#4:-Retrieve-the-percentage-of-solid-A-grades-compared-to-all-courses,-and-rename-that-column-"Percent_A"">Homework query #4: Retrieve the percentage of solid A grades compared to all courses, and rename that column "Percent_A"</a>
+</li>
+<li><a href="#table-Homework-query-#5:Retrieve-the-names-and-numbers-of-all-courses-that-do-not-have-prerequisites.">Homework query #5:Retrieve the names and numbers of all courses that do not have prerequisites.</a>
+</li>
+<li><a href="#table-Homework-query-#6:-Retrieves-the-names-of-all-students-and-their-advisors-if-they-have-one.">Homework query #6: Retrieves the names of all students and their advisors if they have one.</a>
+</li>
+</ol>
+<h3>Chapter 3.7: Create table instructor</h3>
+<table id="table-Chapter-3.7:-Create-table-instructor" style="width:100%"><th><a href="javascript:sortTable('table-Chapter-3.7:-Create-table-instructor', 0, 'S')"">ID</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.7:-Create-table-instructor', 1, 'S')"">name</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.7:-Create-table-instructor', 2, 'S')"">dept_name</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.7:-Create-table-instructor', 3, 'S')"">salary</a>
+</th>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+</tr>
+</table>
+<h3>Chapter 3.32: Average salary by department</h3>
+<table id="table-Chapter-3.32:-Average-salary-by-department" style="width:100%"><th><a href="javascript:sortTable('table-Chapter-3.32:-Average-salary-by-department', 0, 'S')"">dept_name</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.32:-Average-salary-by-department', 1, 'S')"">avg_salary</a>
+</th>
+<tr><td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.000000</td>
+</tr>
+<tr><td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">77333.333333</td>
+</tr>
+<tr><td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.000000</td>
+</tr>
+<tr><td style="text-align:left;">Finance</td>
+<td style="text-align:left;">85000.000000</td>
+</tr>
+<tr><td style="text-align:left;">History</td>
+<td style="text-align:left;">61000.000000</td>
+</tr>
+<tr><td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.000000</td>
+</tr>
+<tr><td style="text-align:left;">Physics</td>
+<td style="text-align:left;">91000.000000</td>
+</tr>
+</table>
+<h3>Chapter 3.16: Retrieve instructors with calculated monthly salary</h3>
+<table id="table-Chapter-3.16:-Retrieve-instructors-with-calculated-monthly-salary" style="width:100%"><th><a href="javascript:sortTable('table-Chapter-3.16:-Retrieve-instructors-with-calculated-monthly-salary', 0, 'S')"">ID</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.16:-Retrieve-instructors-with-calculated-monthly-salary', 1, 'S')"">name</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.16:-Retrieve-instructors-with-calculated-monthly-salary', 2, 'S')"">monthly_salary</a>
+</th>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">5416.666667</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">7500.000000</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">3333.333333</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">7916.666667</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">5000.000000</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">7250.000000</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">6250.000000</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">5166.666667</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">6666.666667</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">6000.000000</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">7666.666667</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">6666.666667</td>
+</tr>
+</table>
+<h3>Chapter 3.25: Instructors with salary between 90k and 100k</h3>
+<table id="table-Chapter-3.25:-Instructors-with-salary-between-90k-and-100k" style="width:100%"><th><a href="javascript:sortTable('table-Chapter-3.25:-Instructors-with-salary-between-90k-and-100k', 0, 'S')"">name</a>
+</th>
+<tr><td style="text-align:left;">Wu</td>
+</tr>
+<tr><td style="text-align:left;">Einstein</td>
+</tr>
+<tr><td style="text-align:left;">Brandt</td>
+</tr>
+</table>
+<h3>Chapter 3.31: Find the average salary of instructors in the Computer Science department</h3>
+<table id="table-Chapter-3.31:-Find-the-average-salary-of-instructors-in-the-Computer-Science-department" style="width:100%"><th><a href="javascript:sortTable('table-Chapter-3.31:-Find-the-average-salary-of-instructors-in-the-Computer-Science-department', 0, 'S')"">average_salary</a>
+</th>
+<tr><td style="text-align:left;">77333.333333</td>
+</tr>
+</table>
+<h3>Chapter 3.24: List in alphabetic order the names of all instructors</h3>
+<table id="table-Chapter-3.24:-List-in-alphabetic-order-the-names-of-all-instructors" style="width:100%"><th><a href="javascript:sortTable('table-Chapter-3.24:-List-in-alphabetic-order-the-names-of-all-instructors', 0, 'S')"">name</a>
+</th>
+<tr><td style="text-align:left;">Brandt</td>
+</tr>
+<tr><td style="text-align:left;">Califieri</td>
+</tr>
+<tr><td style="text-align:left;">Crick</td>
+</tr>
+<tr><td style="text-align:left;">Einstein</td>
+</tr>
+<tr><td style="text-align:left;">El Said</td>
+</tr>
+<tr><td style="text-align:left;">Gold</td>
+</tr>
+<tr><td style="text-align:left;">Katz</td>
+</tr>
+<tr><td style="text-align:left;">Kim</td>
+</tr>
+<tr><td style="text-align:left;">Mozart</td>
+</tr>
+<tr><td style="text-align:left;">Singh</td>
+</tr>
+<tr><td style="text-align:left;">Srinivasan</td>
+</tr>
+<tr><td style="text-align:left;">Wu</td>
+</tr>
+</table>
+<h3>Chapter 3.23: Find the names of all instructors whose name includes the substring “dar”.</h3>
+<table id="table-Chapter-3.23:-Find-the-names-of-all-instructors-whose-name-includes-the-substring-“dar”." style="width:100%"><th><a href="javascript:sortTable('table-Chapter-3.23:-Find-the-names-of-all-instructors-whose-name-includes-the-substring-“dar”.', 0, 'S')"">name</a>
+</th>
+<tr><td style="text-align:left;">None</td>
+</tr>
+</table>
+<h3>Chapter 3.19: Find the names of all instructors who have taught some course and the course_id</h3>
+<table id="table-Chapter-3.19:-Find-the-names-of-all-instructors-who-have-taught-some-course-and-the-course_id" style="width:100%"><th><a href="javascript:sortTable('table-Chapter-3.19:-Find-the-names-of-all-instructors-who-have-taught-some-course-and-the-course_id', 0, 'S')"">name</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.19:-Find-the-names-of-all-instructors-who-have-taught-some-course-and-the-course_id', 1, 'S')"">course_id</a>
+</th>
+<tr><td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">CS-101</td>
+</tr>
+<tr><td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">CS-315</td>
+</tr>
+<tr><td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">CS-347</td>
+</tr>
+<tr><td style="text-align:left;">Wu</td>
+<td style="text-align:left;">FIN-201</td>
+</tr>
+<tr><td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">MU-199</td>
+</tr>
+<tr><td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">PHY-101</td>
+</tr>
+<tr><td style="text-align:left;">El Said</td>
+<td style="text-align:left;">HIS-351</td>
+</tr>
+<tr><td style="text-align:left;">Katz</td>
+<td style="text-align:left;">CS-101</td>
+</tr>
+<tr><td style="text-align:left;">Katz</td>
+<td style="text-align:left;">CS-319</td>
+</tr>
+<tr><td style="text-align:left;">Crick</td>
+<td style="text-align:left;">BIO-101</td>
+</tr>
+<tr><td style="text-align:left;">Crick</td>
+<td style="text-align:left;">BIO-301</td>
+</tr>
+<tr><td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">CS-190</td>
+</tr>
+<tr><td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">CS-190</td>
+</tr>
+<tr><td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">CS-319</td>
+</tr>
+<tr><td style="text-align:left;">Kim</td>
+<td style="text-align:left;">EE-181</td>
+</tr>
+</table>
+<h3>Chapter 3.18: Cartesian product of instructor and teaches</h3>
+<table id="table-Chapter-3.18:-Cartesian-product-of-instructor-and-teaches" style="width:100%"><th><a href="javascript:sortTable('table-Chapter-3.18:-Cartesian-product-of-instructor-and-teaches', 0, 'S')"">ID</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.18:-Cartesian-product-of-instructor-and-teaches', 1, 'S')"">name</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.18:-Cartesian-product-of-instructor-and-teaches', 2, 'S')"">dept_name</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.18:-Cartesian-product-of-instructor-and-teaches', 3, 'S')"">salary</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.18:-Cartesian-product-of-instructor-and-teaches', 4, 'S')"">ID</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.18:-Cartesian-product-of-instructor-and-teaches', 5, 'S')"">course_id</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.18:-Cartesian-product-of-instructor-and-teaches', 6, 'S')"">sec_id</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.18:-Cartesian-product-of-instructor-and-teaches', 7, 'S')"">semester</a>
+</th>
+<th><a href="javascript:sortTable('table-Chapter-3.18:-Cartesian-product-of-instructor-and-teaches', 8, 'S')"">year</a>
+</th>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-301</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-301</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-301</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-301</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-301</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-301</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-301</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-301</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-301</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-301</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-301</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">76766</td>
+<td style="text-align:left;">BIO-301</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Summer</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-315</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-315</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-315</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-315</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-315</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-315</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-315</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-315</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-315</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-315</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-315</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-315</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">45565</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">83821</td>
+<td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">2</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-347</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-347</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-347</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-347</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-347</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-347</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-347</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-347</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-347</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-347</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-347</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">10101</td>
+<td style="text-align:left;">CS-347</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">98345</td>
+<td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">98345</td>
+<td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">98345</td>
+<td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">98345</td>
+<td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">98345</td>
+<td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">98345</td>
+<td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">98345</td>
+<td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">98345</td>
+<td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">98345</td>
+<td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">98345</td>
+<td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">98345</td>
+<td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">98345</td>
+<td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">12121</td>
+<td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">12121</td>
+<td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">12121</td>
+<td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">12121</td>
+<td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">12121</td>
+<td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">12121</td>
+<td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">12121</td>
+<td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">12121</td>
+<td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">12121</td>
+<td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">12121</td>
+<td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">12121</td>
+<td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">12121</td>
+<td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">32343</td>
+<td style="text-align:left;">HIS-351</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">32343</td>
+<td style="text-align:left;">HIS-351</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">32343</td>
+<td style="text-align:left;">HIS-351</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">32343</td>
+<td style="text-align:left;">HIS-351</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">32343</td>
+<td style="text-align:left;">HIS-351</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">32343</td>
+<td style="text-align:left;">HIS-351</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">32343</td>
+<td style="text-align:left;">HIS-351</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">32343</td>
+<td style="text-align:left;">HIS-351</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">32343</td>
+<td style="text-align:left;">HIS-351</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">32343</td>
+<td style="text-align:left;">HIS-351</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">32343</td>
+<td style="text-align:left;">HIS-351</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">32343</td>
+<td style="text-align:left;">HIS-351</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">15151</td>
+<td style="text-align:left;">MU-199</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">15151</td>
+<td style="text-align:left;">MU-199</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">15151</td>
+<td style="text-align:left;">MU-199</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">15151</td>
+<td style="text-align:left;">MU-199</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">15151</td>
+<td style="text-align:left;">MU-199</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">15151</td>
+<td style="text-align:left;">MU-199</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">15151</td>
+<td style="text-align:left;">MU-199</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">15151</td>
+<td style="text-align:left;">MU-199</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">15151</td>
+<td style="text-align:left;">MU-199</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">15151</td>
+<td style="text-align:left;">MU-199</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">15151</td>
+<td style="text-align:left;">MU-199</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">15151</td>
+<td style="text-align:left;">MU-199</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Spring</td>
+<td style="text-align:left;">2018</td>
+</tr>
+<tr><td style="text-align:left;">98345</td>
+<td style="text-align:left;">Kim</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">22222</td>
+<td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">83821</td>
+<td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">92000.00</td>
+<td style="text-align:left;">22222</td>
+<td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76766</td>
+<td style="text-align:left;">Crick</td>
+<td style="text-align:left;">Biology</td>
+<td style="text-align:left;">72000.00</td>
+<td style="text-align:left;">22222</td>
+<td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">76543</td>
+<td style="text-align:left;">Singh</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">80000.00</td>
+<td style="text-align:left;">22222</td>
+<td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">58583</td>
+<td style="text-align:left;">Califieri</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">62000.00</td>
+<td style="text-align:left;">22222</td>
+<td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">45565</td>
+<td style="text-align:left;">Katz</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">75000.00</td>
+<td style="text-align:left;">22222</td>
+<td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">33456</td>
+<td style="text-align:left;">Gold</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">87000.00</td>
+<td style="text-align:left;">22222</td>
+<td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">32343</td>
+<td style="text-align:left;">El Said</td>
+<td style="text-align:left;">History</td>
+<td style="text-align:left;">60000.00</td>
+<td style="text-align:left;">22222</td>
+<td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">22222</td>
+<td style="text-align:left;">Einstein</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">95000.00</td>
+<td style="text-align:left;">22222</td>
+<td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">15151</td>
+<td style="text-align:left;">Mozart</td>
+<td style="text-align:left;">Music</td>
+<td style="text-align:left;">40000.00</td>
+<td style="text-align:left;">22222</td>
+<td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">12121</td>
+<td style="text-align:left;">Wu</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">90000.00</td>
+<td style="text-align:left;">22222</td>
+<td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+<tr><td style="text-align:left;">10101</td>
+<td style="text-align:left;">Srinivasan</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">65000.00</td>
+<td style="text-align:left;">22222</td>
+<td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">1</td>
+<td style="text-align:left;">Fall</td>
+<td style="text-align:left;">2017</td>
+</tr>
+</table>
+<h3>Chapter 3.14: Find the department names of all instructors, and remove duplicates</h3>
+<table id="table-Chapter-3.14:-Find-the-department-names-of-all-instructors,-and-remove-duplicates" style="width:100%"><th><a href="javascript:sortTable('table-Chapter-3.14:-Find-the-department-names-of-all-instructors,-and-remove-duplicates', 0, 'S')"">dept_name</a>
+</th>
+<tr><td style="text-align:left;">Biology</td>
+</tr>
+<tr><td style="text-align:left;">Comp. Sci.</td>
+</tr>
+<tr><td style="text-align:left;">Elec. Eng.</td>
+</tr>
+<tr><td style="text-align:left;">Finance</td>
+</tr>
+<tr><td style="text-align:left;">History</td>
+</tr>
+<tr><td style="text-align:left;">Music</td>
+</tr>
+<tr><td style="text-align:left;">Physics</td>
+</tr>
+</table>
+<h3>Chapter 3.13: find the names of all instructors</h3>
+<table id="table-Chapter-3.13:-find-the-names-of-all-instructors" style="width:100%"><th><a href="javascript:sortTable('table-Chapter-3.13:-find-the-names-of-all-instructors', 0, 'S')"">name</a>
+</th>
+<tr><td style="text-align:left;">Srinivasan</td>
+</tr>
+<tr><td style="text-align:left;">Wu</td>
+</tr>
+<tr><td style="text-align:left;">Mozart</td>
+</tr>
+<tr><td style="text-align:left;">Einstein</td>
+</tr>
+<tr><td style="text-align:left;">El Said</td>
+</tr>
+<tr><td style="text-align:left;">Gold</td>
+</tr>
+<tr><td style="text-align:left;">Katz</td>
+</tr>
+<tr><td style="text-align:left;">Califieri</td>
+</tr>
+<tr><td style="text-align:left;">Singh</td>
+</tr>
+<tr><td style="text-align:left;">Crick</td>
+</tr>
+<tr><td style="text-align:left;">Brandt</td>
+</tr>
+<tr><td style="text-align:left;">Kim</td>
+</tr>
+</table>
+<h3>Homework query #1: Retrieve all courses that have the letters a, e, i in THAT order in their names</h3>
+<table id="table-Homework-query-#1:-Retrieve-all-courses-that-have-the-letters-a,-e,-i-in-THAT-order-in-their-names" style="width:100%"><th><a href="javascript:sortTable('table-Homework-query-#1:-Retrieve-all-courses-that-have-the-letters-a,-e,-i-in-THAT-order-in-their-names', 0, 'S')"">course_id</a>
+</th>
+<th><a href="javascript:sortTable('table-Homework-query-#1:-Retrieve-all-courses-that-have-the-letters-a,-e,-i-in-THAT-order-in-their-names', 1, 'S')"">title</a>
+</th>
+<th><a href="javascript:sortTable('table-Homework-query-#1:-Retrieve-all-courses-that-have-the-letters-a,-e,-i-in-THAT-order-in-their-names', 2, 'S')"">dept_name</a>
+</th>
+<th><a href="javascript:sortTable('table-Homework-query-#1:-Retrieve-all-courses-that-have-the-letters-a,-e,-i-in-THAT-order-in-their-names', 3, 'S')"">credits</a>
+</th>
+<tr><td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">Game Design</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">4</td>
+</tr>
+<tr><td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">Image Processing</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">3</td>
+</tr>
+</table>
+<h3>test</h3>
+<table id="table-test" style="width:100%"><th><a href="javascript:sortTable('table-test', 0, 'S')"">course_id</a>
+</th>
+<tr><td style="text-align:left;">CS-190</td>
+</tr>
+<tr><td style="text-align:left;">CS-319</td>
+</tr>
+</table>
+<h3>Homework query #2: Retrieve all courses that have the letters a, e, i i ANY order in their names</h3>
+<table id="table-Homework-query-#2:-Retrieve-all-courses-that-have-the-letters-a,-e,-i-i-ANY-order-in-their-names" style="width:100%"><th><a href="javascript:sortTable('table-Homework-query-#2:-Retrieve-all-courses-that-have-the-letters-a,-e,-i-i-ANY-order-in-their-names', 0, 'S')"">course_id</a>
+</th>
+<th><a href="javascript:sortTable('table-Homework-query-#2:-Retrieve-all-courses-that-have-the-letters-a,-e,-i-i-ANY-order-in-their-names', 1, 'S')"">title</a>
+</th>
+<th><a href="javascript:sortTable('table-Homework-query-#2:-Retrieve-all-courses-that-have-the-letters-a,-e,-i-i-ANY-order-in-their-names', 2, 'S')"">dept_name</a>
+</th>
+<th><a href="javascript:sortTable('table-Homework-query-#2:-Retrieve-all-courses-that-have-the-letters-a,-e,-i-i-ANY-order-in-their-names', 3, 'S')"">credits</a>
+</th>
+<tr><td style="text-align:left;">CS-190</td>
+<td style="text-align:left;">Game Design</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">4</td>
+</tr>
+<tr><td style="text-align:left;">CS-319</td>
+<td style="text-align:left;">Image Processing</td>
+<td style="text-align:left;">Comp. Sci.</td>
+<td style="text-align:left;">3</td>
+</tr>
+<tr><td style="text-align:left;">EE-181</td>
+<td style="text-align:left;">Intro. to Digital Systems</td>
+<td style="text-align:left;">Elec. Eng.</td>
+<td style="text-align:left;">3</td>
+</tr>
+<tr><td style="text-align:left;">FIN-201</td>
+<td style="text-align:left;">Investment Banking</td>
+<td style="text-align:left;">Finance</td>
+<td style="text-align:left;">3</td>
+</tr>
+<tr><td style="text-align:left;">PHY-101</td>
+<td style="text-align:left;">Physical Principles</td>
+<td style="text-align:left;">Physics</td>
+<td style="text-align:left;">4</td>
+</tr>
+</table>
+<h3>Homework query #3: Retrieve the names of all students who failed a course (grade of F) along with the name of the course that they failed</h3>
+<table id="table-Homework-query-#3:-Retrieve-the-names-of-all-students-who-failed-a-course-(grade-of-F)-along-with-the-name-of-the-course-that-they-failed" style="width:100%"><th><a href="javascript:sortTable('table-Homework-query-#3:-Retrieve-the-names-of-all-students-who-failed-a-course-(grade-of-F)-along-with-the-name-of-the-course-that-they-failed', 0, 'S')"">name</a>
+</th>
+<th><a href="javascript:sortTable('table-Homework-query-#3:-Retrieve-the-names-of-all-students-who-failed-a-course-(grade-of-F)-along-with-the-name-of-the-course-that-they-failed', 1, 'S')"">title</a>
+</th>
+<tr><td style="text-align:left;">Levy</td>
+<td style="text-align:left;">Intro. to Computer Science</td>
+</tr>
+</table>
+<h3>test fail</h3>
+<table id="table-test-fail" style="width:100%"><th><a href="javascript:sortTable('table-test-fail', 0, 'S')"">student_name</a>
+</th>
+<th><a href="javascript:sortTable('table-test-fail', 1, 'S')"">course_title</a>
+</th>
+<tr><td style="text-align:left;">Levy</td>
+<td style="text-align:left;">Intro. to Computer Science</td>
+</tr>
+</table>
+<h3>Homework query #4: Retrieve the percentage of solid A grades compared to all courses, and rename that column "Percent_A"</h3>
+<table id="table-Homework-query-#4:-Retrieve-the-percentage-of-solid-A-grades-compared-to-all-courses,-and-rename-that-column-"Percent_A"" style="width:100%"><th><a href="javascript:sortTable('table-Homework-query-#4:-Retrieve-the-percentage-of-solid-A-grades-compared-to-all-courses,-and-rename-that-column-"Percent_A"', 0, 'S')"">Percent_A</a>
+</th>
+<tr><td style="text-align:left;">31.81818</td>
+</tr>
+</table>
+<h3>Homework query #5:Retrieve the names and numbers of all courses that do not have prerequisites.</h3>
+<table id="table-Homework-query-#5:Retrieve-the-names-and-numbers-of-all-courses-that-do-not-have-prerequisites." style="width:100%"><th><a href="javascript:sortTable('table-Homework-query-#5:Retrieve-the-names-and-numbers-of-all-courses-that-do-not-have-prerequisites.', 0, 'S')"">title</a>
+</th>
+<th><a href="javascript:sortTable('table-Homework-query-#5:Retrieve-the-names-and-numbers-of-all-courses-that-do-not-have-prerequisites.', 1, 'S')"">course_id</a>
+</th>
+<tr><td style="text-align:left;">Intro. to Biology</td>
+<td style="text-align:left;">BIO-101</td>
+</tr>
+<tr><td style="text-align:left;">Intro. to Computer Science</td>
+<td style="text-align:left;">CS-101</td>
+</tr>
+<tr><td style="text-align:left;">Investment Banking</td>
+<td style="text-align:left;">FIN-201</td>
+</tr>
+<tr><td style="text-align:left;">World History</td>
+<td style="text-align:left;">HIS-351</td>
+</tr>
+<tr><td style="text-align:left;">Music Video Production</td>
+<td style="text-align:left;">MU-199</td>
+</tr>
+<tr><td style="text-align:left;">Physical Principles</td>
+<td style="text-align:left;">PHY-101</td>
+</tr>
+</table>
+<h3>Homework query #6: Retrieves the names of all students and their advisors if they have one.</h3>
+<table id="table-Homework-query-#6:-Retrieves-the-names-of-all-students-and-their-advisors-if-they-have-one." style="width:100%"><th><a href="javascript:sortTable('table-Homework-query-#6:-Retrieves-the-names-of-all-students-and-their-advisors-if-they-have-one.', 0, 'S')"">student_name</a>
+</th>
+<th><a href="javascript:sortTable('table-Homework-query-#6:-Retrieves-the-names-of-all-students-and-their-advisors-if-they-have-one.', 1, 'S')"">student_id</a>
+</th>
+<th><a href="javascript:sortTable('table-Homework-query-#6:-Retrieves-the-names-of-all-students-and-their-advisors-if-they-have-one.', 2, 'S')"">advisor_name</a>
+</th>
+<tr><td style="text-align:left;">Zhang</td>
+<td style="text-align:left;">00128</td>
+<td style="text-align:left;">Katz</td>
+</tr>
+<tr><td style="text-align:left;">Shankar</td>
+<td style="text-align:left;">12345</td>
+<td style="text-align:left;">Srinivasan</td>
+</tr>
+<tr><td style="text-align:left;">Brandt</td>
+<td style="text-align:left;">19991</td>
+<td style="text-align:left;">None</td>
+</tr>
+<tr><td style="text-align:left;">Chavez</td>
+<td style="text-align:left;">23121</td>
+<td style="text-align:left;">Singh</td>
+</tr>
+<tr><td style="text-align:left;">Peltier</td>
+<td style="text-align:left;">44553</td>
+<td style="text-align:left;">Einstein</td>
+</tr>
+<tr><td style="text-align:left;">Levy</td>
+<td style="text-align:left;">45678</td>
+<td style="text-align:left;">Einstein</td>
+</tr>
+<tr><td style="text-align:left;">Williams</td>
+<td style="text-align:left;">54321</td>
+<td style="text-align:left;">None</td>
+</tr>
+<tr><td style="text-align:left;">Sanchez</td>
+<td style="text-align:left;">55739</td>
+<td style="text-align:left;">None</td>
+</tr>
+<tr><td style="text-align:left;">Snow</td>
+<td style="text-align:left;">70557</td>
+<td style="text-align:left;">None</td>
+</tr>
+<tr><td style="text-align:left;">Brown</td>
+<td style="text-align:left;">76543</td>
+<td style="text-align:left;">Katz</td>
+</tr>
+<tr><td style="text-align:left;">Aoi</td>
+<td style="text-align:left;">76653</td>
+<td style="text-align:left;">Kim</td>
+</tr>
+<tr><td style="text-align:left;">Bourikas</td>
+<td style="text-align:left;">98765</td>
+<td style="text-align:left;">Kim</td>
+</tr>
+<tr><td style="text-align:left;">Tanaka</td>
+<td style="text-align:left;">98988</td>
+<td style="text-align:left;">Crick</td>
+</tr>
+</table>
+<center><h6>&copy;2024 by Developer • Generated on Jan. 21, 2024 18:48 PM</h6>
+</center>
+</body>
+</html>

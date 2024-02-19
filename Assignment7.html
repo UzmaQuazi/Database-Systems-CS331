@@ -1,0 +1,207 @@
+<html><head><meta name="description" content="OutputUtil developed by LT. Executed by /Users/PC/Desktop/CSCI 331/pythonProject">
+<style>body {
+    background-color: white; /* Light blue for a soft, overall background */
+    font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+    color: #6e78ff; /* Soft purple for headers, contrasting against light blue background */
+    text-align: center;
+}
+h3 {
+    color: #6e78ff; /* Same as h1 for consistency */
+}
+.vericaltext {
+ writing-mode: vertical-lr;
+ text-orientation: upright;
+}
+
+table, th, td {
+    border: 1px solid;
+    text-align: center;
+    vertical-align: top
+}
+th > a {
+    color: #61f4de; /* Light teal for links, offering a good contrast on purple */
+}
+th {
+    background-color: #6e78ff; /* Soft purple for headers */
+    color: #65cbe9; /* Soft blue for text, ensuring readability */
+}
+tr:nth-child(even) {
+    background-color: lightskyblue; /* Periwinkle for even rows */
+    color: white; /* Soft blue for text, ensuring readability */
+}
+tr:nth-child(odd) {
+    background-color: lightpink; /* Light teal for odd rows */
+    color: blueviolet; /* Soft purple for text, ensuring readability */
+}
+</style>
+<script>
+function sortTable(tableId, colNum, colType) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchCount = 0;
+  table = document.getElementById(tableId);
+  switching = true;
+  dir = "asc";
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("td")[colNum];
+      y = rows[i + 1].getElementsByTagName("td")[colNum];
+      if (colType == 'N') { 
+        if (((dir == "asc") && (Number(x.innerHTML) > Number(y.innerHTML))) ||
+            ((dir == "desc") && (Number(x.innerHTML) < Number(y.innerHTML)))) {
+          shouldSwitch = true;
+          break;
+        }
+      } else {
+        if (((dir == "asc") && (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase())) ||
+            ((dir == "desc") && (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()))) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchCount ++;
+    } else {
+     if (switchCount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+</head>
+<body><h1>All queries for 'Assignment 7'</h1>
+<h3>Table of Contents</h3>
+<ol><li><a href="#table-Assignment-7-select-from-math_shape2d">Assignment 7 select from math_shape2d</a>
+</li>
+<li><a href="#table-Assignment-7-math_shape3d">Assignment 7 math_shape3d</a>
+</li>
+<li><a href="#table-testing-function-area_circle">testing function area_circle</a>
+</li>
+<li><a href="#table-Assignment-7-testing-function-volume_sphere">Assignment 7 testing function volume_sphere</a>
+</li>
+<li><a href="#table-Query-from:-'Assignment7.sql'">Query from: 'Assignment7.sql'</a>
+</li>
+<li><a href="#table-Query-from:-'Assignment7.sql'">Query from: 'Assignment7.sql'</a>
+</li>
+<li><a href="#table-Assignment-7-[9]-find-estimate-of-pi-for-different-n">Assignment 7 [9] find estimate of pi for different n</a>
+</li>
+</ol>
+<h3>Assignment 7 select from math_shape2d</h3>
+<table id="table-Assignment-7-select-from-math_shape2d" style="width:100%"><th><a href="javascript:sortTable('table-Assignment-7-select-from-math_shape2d', 0, 'N')"">shape_id</a>
+</th>
+<th><a href="javascript:sortTable('table-Assignment-7-select-from-math_shape2d', 1, 'S')"">shape_name</a>
+</th>
+<th><a href="javascript:sortTable('table-Assignment-7-select-from-math_shape2d', 2, 'S')"">perimeter_formula</a>
+</th>
+<th><a href="javascript:sortTable('table-Assignment-7-select-from-math_shape2d', 3, 'S')"">area_formula</a>
+</th>
+<tr><td style="text-align:right;">1</td>
+<td style="text-align:left;">triangle</td>
+<td style="text-align:left;">s1+s2+s3</td>
+<td style="text-align:left;">b*h*0.5</td>
+</tr>
+<tr><td style="text-align:right;">2</td>
+<td style="text-align:left;">rectangle</td>
+<td style="text-align:left;">2*w+2*h</td>
+<td style="text-align:left;">w*h</td>
+</tr>
+</table>
+<h3>Assignment 7 math_shape3d</h3>
+<table id="table-Assignment-7-math_shape3d" style="width:100%"><th><a href="javascript:sortTable('table-Assignment-7-math_shape3d', 0, 'N')"">shape_id</a>
+</th>
+<th><a href="javascript:sortTable('table-Assignment-7-math_shape3d', 1, 'S')"">shape_name</a>
+</th>
+<th><a href="javascript:sortTable('table-Assignment-7-math_shape3d', 2, 'S')"">area_formula</a>
+</th>
+<th><a href="javascript:sortTable('table-Assignment-7-math_shape3d', 3, 'S')"">volume_formula</a>
+</th>
+<tr><td style="text-align:right;">1</td>
+<td style="text-align:left;">cube</td>
+<td style="text-align:left;">6 * s^2</td>
+<td style="text-align:left;">s^3</td>
+</tr>
+<tr><td style="text-align:right;">2</td>
+<td style="text-align:left;">sphere</td>
+<td style="text-align:left;">4*pi*r^2</td>
+<td style="text-align:left;">(4/3)*pi*r^3</td>
+</tr>
+</table>
+<h3>testing function area_circle</h3>
+<table id="table-testing-function-area_circle" style="width:100%"><th><a href="javascript:sortTable('table-testing-function-area_circle', 0, 'N')"">area_circle(2)</a>
+</th>
+<tr><td style="text-align:right;">12.56</td>
+</tr>
+</table>
+<h3>Assignment 7 testing function volume_sphere</h3>
+<table id="table-Assignment-7-testing-function-volume_sphere" style="width:100%"><th><a href="javascript:sortTable('table-Assignment-7-testing-function-volume_sphere', 0, 'N')"">volume_sphere(2)</a>
+</th>
+<tr><td style="text-align:right;">33.4933</td>
+</tr>
+</table>
+<h3>Query from: 'Assignment7.sql'</h3>
+<table id="table-Query-from:-'Assignment7.sql'" style="width:100%"><th><a href="javascript:sortTable('table-Query-from:-'Assignment7.sql'', 0, 'S')"">circle_id</a>
+</th>
+<th><a href="javascript:sortTable('table-Query-from:-'Assignment7.sql'', 1, 'S')"">total_points</a>
+</th>
+<th><a href="javascript:sortTable('table-Query-from:-'Assignment7.sql'', 2, 'S')"">circle_points</a>
+</th>
+<th><a href="javascript:sortTable('table-Query-from:-'Assignment7.sql'', 3, 'S')"">pi_estimate</a>
+</th>
+<tr><td style="text-align:left;">None</td>
+<td style="text-align:left;">None</td>
+<td style="text-align:left;">None</td>
+<td style="text-align:left;">None</td>
+</tr>
+</table>
+<h3>Query from: 'Assignment7.sql'</h3>
+<table id="table-Query-from:-'Assignment7.sql'" style="width:100%"><th><a href="javascript:sortTable('table-Query-from:-'Assignment7.sql'', 0, 'S')"">point_id</a>
+</th>
+<th><a href="javascript:sortTable('table-Query-from:-'Assignment7.sql'', 1, 'S')"">circle_id</a>
+</th>
+<th><a href="javascript:sortTable('table-Query-from:-'Assignment7.sql'', 2, 'S')"">x</a>
+</th>
+<th><a href="javascript:sortTable('table-Query-from:-'Assignment7.sql'', 3, 'S')"">y</a>
+</th>
+<tr><td style="text-align:left;">None</td>
+<td style="text-align:left;">None</td>
+<td style="text-align:left;">None</td>
+<td style="text-align:left;">None</td>
+</tr>
+</table>
+<h3>Assignment 7 [9] find estimate of pi for different n</h3>
+<table id="table-Assignment-7-[9]-find-estimate-of-pi-for-different-n" style="width:100%"><th><a href="javascript:sortTable('table-Assignment-7-[9]-find-estimate-of-pi-for-different-n', 0, 'N')"">circle_id</a>
+</th>
+<th><a href="javascript:sortTable('table-Assignment-7-[9]-find-estimate-of-pi-for-different-n', 1, 'N')"">total_points</a>
+</th>
+<th><a href="javascript:sortTable('table-Assignment-7-[9]-find-estimate-of-pi-for-different-n', 2, 'N')"">circle_points</a>
+</th>
+<th><a href="javascript:sortTable('table-Assignment-7-[9]-find-estimate-of-pi-for-different-n', 3, 'N')"">pi_estimate</a>
+</th>
+<tr><td style="text-align:right;">1</td>
+<td style="text-align:right;">100</td>
+<td style="text-align:right;">79</td>
+<td style="text-align:right;">3.12871</td>
+</tr>
+<tr><td style="text-align:right;">2</td>
+<td style="text-align:right;">1000</td>
+<td style="text-align:right;">805</td>
+<td style="text-align:right;">3.21678</td>
+</tr>
+<tr><td style="text-align:right;">3</td>
+<td style="text-align:right;">10000</td>
+<td style="text-align:right;">7900</td>
+<td style="text-align:right;">3.15968</td>
+</tr>
+</table>
+<center><h6>&copy;2024 by Developer • Generated on Jan. 14, 2024 22:26 PM</h6>
+</center>
+</body>
+</html>

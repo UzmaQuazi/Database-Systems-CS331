@@ -1,0 +1,279 @@
+<html><head><meta name="description" content="OutputUtil developed by LT. Executed by /Users/PC/Desktop/CSCI 331/pythonProject">
+<title>Pivot tables for select examples</title>
+<style>body {
+    background-color: white; /* Light blue for a soft, overall background */
+    font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+    color: #6e78ff; /* Soft purple for headers, contrasting against light blue background */
+    text-align: center;
+}
+h3 {
+    color: #6e78ff; /* Same as h1 for consistency */
+}
+.vericaltext {
+ writing-mode: vertical-lr;
+ text-orientation: upright;
+}
+
+table, th, td {
+    border: 1px solid;
+    text-align: center;
+    vertical-align: top
+}
+th > a {
+    color: #61f4de; /* Light teal for links, offering a good contrast on purple */
+}
+th {
+    background-color: #6e78ff; /* Soft purple for headers */
+    color: #65cbe9; /* Soft blue for text, ensuring readability */
+}
+tr:nth-child(even) {
+    background-color: lightskyblue; /* Periwinkle for even rows */
+    color: white; /* Soft blue for text, ensuring readability */
+}
+tr:nth-child(odd) {
+    background-color: lightpink; /* Light teal for odd rows */
+    color: blueviolet; /* Soft purple for text, ensuring readability */
+}
+</style>
+<script>
+function sortTable(tableId, colNum, colType) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchCount = 0;
+  table = document.getElementById(tableId);
+  switching = true;
+  dir = "asc";
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("td")[colNum];
+      y = rows[i + 1].getElementsByTagName("td")[colNum];
+      if (colType == 'N') { 
+        if (((dir == "asc") && (Number(x.innerHTML) > Number(y.innerHTML))) ||
+            ((dir == "desc") && (Number(x.innerHTML) < Number(y.innerHTML)))) {
+          shouldSwitch = true;
+          break;
+        }
+      } else {
+        if (((dir == "asc") && (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase())) ||
+            ((dir == "desc") && (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()))) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchCount ++;
+    } else {
+     if (switchCount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+</head>
+<body><h1>Pivot tables for select examples</h1>
+<h3>Table of Contents</h3>
+<ol><li><a href="#table-Build-a-pivot-table-product_sales-for-product_name,-store_location">Build a pivot table product_sales for product_name, store_location</a>
+</li>
+<li><a href="#table-Build-a-pivot-table-product_sales-for-store_location,-product_name">Build a pivot table product_sales for store_location, product_name</a>
+</li>
+<li><a href="#table-Build-a-pivot-table-instructor-for-dept_name,-name">Build a pivot table instructor for dept_name, name</a>
+</li>
+</ol>
+<h3>Build a pivot table product_sales for product_name, store_location</h3>
+<table id="table-Build-a-pivot-table-product_sales-for-product_name,-store_location" style="width:100%"><th><a href="javascript:sortTable('table-Build-a-pivot-table-product_sales-for-product_name,-store_location', 0, 'S')"">store_location</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-product_sales-for-product_name,-store_location', 1, 'N')"">Chair</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-product_sales-for-product_name,-store_location', 2, 'N')"">Desk</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-product_sales-for-product_name,-store_location', 3, 'N')"">Couch</a>
+</th>
+<tr><td style="text-align:left;">North</td>
+<td style="text-align:right;">437</td>
+<td style="text-align:right;">226</td>
+<td style="text-align:right;">251</td>
+</tr>
+<tr><td style="text-align:left;">Central</td>
+<td style="text-align:right;">218</td>
+<td style="text-align:right;">120</td>
+<td style="text-align:right;">218</td>
+</tr>
+<tr><td style="text-align:left;">South</td>
+<td style="text-align:right;">376</td>
+<td style="text-align:right;">136</td>
+<td style="text-align:right;">0</td>
+</tr>
+<tr><td style="text-align:left;">West</td>
+<td style="text-align:right;">130</td>
+<td style="text-align:right;">134</td>
+<td style="text-align:right;">143</td>
+</tr>
+</table>
+<h3>Build a pivot table product_sales for store_location, product_name</h3>
+<table id="table-Build-a-pivot-table-product_sales-for-store_location,-product_name" style="width:100%"><th><a href="javascript:sortTable('table-Build-a-pivot-table-product_sales-for-store_location,-product_name', 0, 'S')"">product_name</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-product_sales-for-store_location,-product_name', 1, 'N')"">North</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-product_sales-for-store_location,-product_name', 2, 'N')"">Central</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-product_sales-for-store_location,-product_name', 3, 'N')"">South</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-product_sales-for-store_location,-product_name', 4, 'N')"">West</a>
+</th>
+<tr><td style="text-align:left;">Chair</td>
+<td style="text-align:right;">437</td>
+<td style="text-align:right;">218</td>
+<td style="text-align:right;">376</td>
+<td style="text-align:right;">130</td>
+</tr>
+<tr><td style="text-align:left;">Desk</td>
+<td style="text-align:right;">226</td>
+<td style="text-align:right;">120</td>
+<td style="text-align:right;">136</td>
+<td style="text-align:right;">134</td>
+</tr>
+<tr><td style="text-align:left;">Couch</td>
+<td style="text-align:right;">251</td>
+<td style="text-align:right;">218</td>
+<td style="text-align:right;">0</td>
+<td style="text-align:right;">143</td>
+</tr>
+</table>
+<h3>Build a pivot table instructor for dept_name, name</h3>
+<table id="table-Build-a-pivot-table-instructor-for-dept_name,-name" style="width:100%"><th><a href="javascript:sortTable('table-Build-a-pivot-table-instructor-for-dept_name,-name', 0, 'S')"">name</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-instructor-for-dept_name,-name', 1, 'N')"">Biology</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-instructor-for-dept_name,-name', 2, 'N')"">Comp_Sci_</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-instructor-for-dept_name,-name', 3, 'N')"">Elec_Eng_</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-instructor-for-dept_name,-name', 4, 'N')"">Finance</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-instructor-for-dept_name,-name', 5, 'N')"">History</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-instructor-for-dept_name,-name', 6, 'N')"">Music</a>
+</th>
+<th><a href="javascript:sortTable('table-Build-a-pivot-table-instructor-for-dept_name,-name', 7, 'N')"">Physics</a>
+</th>
+<tr><td style="text-align:left;">Srinivasan</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">65000.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+</tr>
+<tr><td style="text-align:left;">Wu</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">90000.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+</tr>
+<tr><td style="text-align:left;">Mozart</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">40000.00</td>
+<td style="text-align:right;">0.00</td>
+</tr>
+<tr><td style="text-align:left;">Einstein</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">95000.00</td>
+</tr>
+<tr><td style="text-align:left;">El Said</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">60000.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+</tr>
+<tr><td style="text-align:left;">Gold</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">87000.00</td>
+</tr>
+<tr><td style="text-align:left;">Katz</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">75000.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+</tr>
+<tr><td style="text-align:left;">Califieri</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">62000.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+</tr>
+<tr><td style="text-align:left;">Singh</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">80000.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+</tr>
+<tr><td style="text-align:left;">Crick</td>
+<td style="text-align:right;">72000.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+</tr>
+<tr><td style="text-align:left;">Brandt</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">92000.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+</tr>
+<tr><td style="text-align:left;">Kim</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">80000.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+<td style="text-align:right;">0.00</td>
+</tr>
+</table>
+<center><h6>&copy;2024 by Developer • Generated on Jan. 17, 2024 22:23 PM</h6>
+</center>
+</body>
+</html>

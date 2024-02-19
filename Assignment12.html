@@ -1,0 +1,201 @@
+<html><head><meta name="description" content="OutputUtil developed by LT. Executed by /Users/PC/Desktop/CSCI 331/pythonProject">
+<title>All queries for 'Assignment12'</title>
+<style>body {
+    background-color: white; /* Light blue for a soft, overall background */
+    font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+    color: #6e78ff; /* Soft purple for headers, contrasting against light blue background */
+    text-align: center;
+}
+h3 {
+    color: #6e78ff; /* Same as h1 for consistency */
+}
+.vericaltext {
+ writing-mode: vertical-lr;
+ text-orientation: upright;
+}
+
+table, th, td {
+    border: 1px solid;
+    text-align: center;
+    vertical-align: top
+}
+th > a {
+    color: #61f4de; /* Light teal for links, offering a good contrast on purple */
+}
+th {
+    background-color: #6e78ff; /* Soft purple for headers */
+    color: #65cbe9; /* Soft blue for text, ensuring readability */
+}
+tr:nth-child(even) {
+    background-color: lightskyblue; /* Periwinkle for even rows */
+    color: white; /* Soft blue for text, ensuring readability */
+}
+tr:nth-child(odd) {
+    background-color: lightpink; /* Light teal for odd rows */
+    color: blueviolet; /* Soft purple for text, ensuring readability */
+}
+</style>
+<script>
+function sortTable(tableId, colNum, colType) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchCount = 0;
+  table = document.getElementById(tableId);
+  switching = true;
+  dir = "asc";
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("td")[colNum];
+      y = rows[i + 1].getElementsByTagName("td")[colNum];
+      if (colType == 'N') { 
+        if (((dir == "asc") && (Number(x.innerHTML) > Number(y.innerHTML))) ||
+            ((dir == "desc") && (Number(x.innerHTML) < Number(y.innerHTML)))) {
+          shouldSwitch = true;
+          break;
+        }
+      } else {
+        if (((dir == "asc") && (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase())) ||
+            ((dir == "desc") && (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()))) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchCount ++;
+    } else {
+     if (switchCount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+</script>
+</head>
+<body><h1>All queries for 'Assignment12'</h1>
+<h3>Table of Contents</h3>
+<ol><li><a href="#table-Select-all-queries-using-IN-clause-without-Index">Select all queries using IN clause without Index</a>
+</li>
+<li><a href="#table-Select-all-queries-using-OR-clause-without-Index">Select all queries using OR clause without Index</a>
+</li>
+<li><a href="#table-Select-all-queries-using-LIKE-Clause-without-Index">Select all queries using LIKE Clause without Index</a>
+</li>
+<li><a href="#table-Select-all-queries-using-UNION-Clause-without-Index">Select all queries using UNION Clause without Index</a>
+</li>
+<li><a href="#table-Select-all-queries-using-IN-clause-with-Index">Select all queries using IN clause with Index</a>
+</li>
+<li><a href="#table-Select-all-queries-using-OR-clause-with-Index">Select all queries using OR clause with Index</a>
+</li>
+<li><a href="#table-Select-all-queries-using-LIKE-Clause-with-Index">Select all queries using LIKE Clause with Index</a>
+</li>
+<li><a href="#table-Select-all-queries-using-UNION-Clause-with-Index">Select all queries using UNION Clause with Index</a>
+</li>
+<li><a href="#table-Find-queries-associated-with-this-assignment">Find queries associated with this assignment</a>
+</li>
+</ol>
+<h3>Select all queries using IN clause without Index</h3>
+<table id="table-Select-all-queries-using-IN-clause-without-Index" style="width:100%"><th><a href="javascript:sortTable('table-Select-all-queries-using-IN-clause-without-Index', 0, 'N')"">count</a>
+</th>
+<tr><td style="text-align:right;">2115</td>
+</tr>
+</table>
+<h3>Select all queries using OR clause without Index</h3>
+<table id="table-Select-all-queries-using-OR-clause-without-Index" style="width:100%"><th><a href="javascript:sortTable('table-Select-all-queries-using-OR-clause-without-Index', 0, 'N')"">count</a>
+</th>
+<tr><td style="text-align:right;">2115</td>
+</tr>
+</table>
+<h3>Select all queries using LIKE Clause without Index</h3>
+<table id="table-Select-all-queries-using-LIKE-Clause-without-Index" style="width:100%"><th><a href="javascript:sortTable('table-Select-all-queries-using-LIKE-Clause-without-Index', 0, 'N')"">count</a>
+</th>
+<tr><td style="text-align:right;">2679</td>
+</tr>
+</table>
+<h3>Select all queries using UNION Clause without Index</h3>
+<table id="table-Select-all-queries-using-UNION-Clause-without-Index" style="width:100%"><th><a href="javascript:sortTable('table-Select-all-queries-using-UNION-Clause-without-Index', 0, 'S')"">count</a>
+</th>
+<tr><td style="text-align:left;">2115</td>
+</tr>
+</table>
+<h3>Select all queries using IN clause with Index</h3>
+<table id="table-Select-all-queries-using-IN-clause-with-Index" style="width:100%"><th><a href="javascript:sortTable('table-Select-all-queries-using-IN-clause-with-Index', 0, 'N')"">count</a>
+</th>
+<tr><td style="text-align:right;">2115</td>
+</tr>
+</table>
+<h3>Select all queries using OR clause with Index</h3>
+<table id="table-Select-all-queries-using-OR-clause-with-Index" style="width:100%"><th><a href="javascript:sortTable('table-Select-all-queries-using-OR-clause-with-Index', 0, 'N')"">count</a>
+</th>
+<tr><td style="text-align:right;">2115</td>
+</tr>
+</table>
+<h3>Select all queries using LIKE Clause with Index</h3>
+<table id="table-Select-all-queries-using-LIKE-Clause-with-Index" style="width:100%"><th><a href="javascript:sortTable('table-Select-all-queries-using-LIKE-Clause-with-Index', 0, 'N')"">count</a>
+</th>
+<tr><td style="text-align:right;">2679</td>
+</tr>
+</table>
+<h3>Select all queries using UNION Clause with Index</h3>
+<table id="table-Select-all-queries-using-UNION-Clause-with-Index" style="width:100%"><th><a href="javascript:sortTable('table-Select-all-queries-using-UNION-Clause-with-Index', 0, 'S')"">count</a>
+</th>
+<tr><td style="text-align:left;">2115</td>
+</tr>
+</table>
+<h3>Find queries associated with this assignment</h3>
+<table id="table-Find-queries-associated-with-this-assignment" style="width:100%"><th><a href="javascript:sortTable('table-Find-queries-associated-with-this-assignment', 0, 'N')"">query_id</a>
+</th>
+<th><a href="javascript:sortTable('table-Find-queries-associated-with-this-assignment', 1, 'S')"">query_desc</a>
+</th>
+<th><a href="javascript:sortTable('table-Find-queries-associated-with-this-assignment', 2, 'S')"">query_dur</a>
+</th>
+<tr><td style="text-align:right;">3394</td>
+<td style="text-align:left;">Select all queries using OR clause with Index</td>
+<td style="text-align:left;">0.0020</td>
+</tr>
+<tr><td style="text-align:right;">3392</td>
+<td style="text-align:left;">Create Index on query table</td>
+<td style="text-align:left;">0.0160</td>
+</tr>
+<tr><td style="text-align:right;">3390</td>
+<td style="text-align:left;">Select all queries using LIKE Clause without Index</td>
+<td style="text-align:left;">0.0013</td>
+</tr>
+<tr><td style="text-align:right;">3388</td>
+<td style="text-align:left;">Select all queries using IN clause without Index</td>
+<td style="text-align:left;">0.0054</td>
+</tr>
+<tr><td style="text-align:right;">3395</td>
+<td style="text-align:left;">Select all queries using LIKE Clause with Index</td>
+<td style="text-align:left;">0.0012</td>
+</tr>
+<tr><td style="text-align:right;">3389</td>
+<td style="text-align:left;">Select all queries using OR clause without Index</td>
+<td style="text-align:left;">0.0035</td>
+</tr>
+<tr><td style="text-align:right;">3393</td>
+<td style="text-align:left;">Select all queries using IN clause with Index</td>
+<td style="text-align:left;">0.0021</td>
+</tr>
+<tr><td style="text-align:right;">3387</td>
+<td style="text-align:left;">Drop Index on query table</td>
+<td style="text-align:left;">0.0136</td>
+</tr>
+<tr><td style="text-align:right;">3391</td>
+<td style="text-align:left;">Select all queries using UNION Clause without Index</td>
+<td style="text-align:left;">0.0114</td>
+</tr>
+<tr><td style="text-align:right;">3396</td>
+<td style="text-align:left;">Select all queries using UNION Clause with Index</td>
+<td style="text-align:left;">0.0017</td>
+</tr>
+</table>
+<center><h6>&copy;2024 by Developer • Generated on Jan. 19, 2024 22:28 PM</h6>
+</center>
+</body>
+</html>
