@@ -7,12 +7,12 @@ Welcome to the repository for assignments from the Database Systems course. Here
 - **Infrastructure Appreciation:** Gained an appreciation for the foundational infrastructure of database management systems.
 
 Feel free to explore each assignment for a detailed showcase of acquired skills.
-Certainly! Here's the formatted text for your GitHub README file in code block format:
+
+How to run locally
+Clone this repo, create a virtual environment and activate it.
 
 ```markdown
-# How to Run Locally
 
-Clone this repo, create a virtual environment, and activate it:
 
 ```bash
 $ python3 -m venv venv
@@ -25,4 +25,3 @@ Install the requirements:
 $ pip3 install -r requirements.txt
 ```
 
-Feel free to customize the formatting based on your preferences.
