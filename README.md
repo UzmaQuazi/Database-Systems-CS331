@@ -14,10 +14,9 @@ Clone this repo, create a virtual environment and activate it.
 ```markdown
 
 
-```bash
 $ python3 -m venv venv
 $ source venv/bin/activate
-```
+
 
 Install the requirements:
 
