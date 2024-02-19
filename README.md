@@ -8,8 +8,9 @@ Welcome to the repository for assignments from the Database Systems course. Here
 
 Feel free to explore each assignment for a detailed showcase of acquired skills.
 
-How to run locally
-#Clone this repo, create a virtual environment and activate it.
+How to run locally  
+Clone this repo, create a virtual environment and activate it.
+
 
 ```markdown
 
